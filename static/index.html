@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Best vs Worst Super Bowl Winner</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .tables {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 500px;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        caption {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Best vs Worst Super Bowl Winner</h1>
+
+    <div class="tables">
+        <table id="best-table">
+            <caption>Best Team</caption>
+            <tbody></tbody>
+        </table>
+
+        <table id="worst-table">
+            <caption>Worst Team</caption>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <script>
+        // Static data so it works on GitHub Pages
+        const best = {
+            name: "Miami Dolphins",
+            season: 1972,
+            category: "Best",
+            record: "14-0",
+            wins: 14,
+            losses: 0,
+            winPct: 1.000,
+            pointsFor: 27.5,
+            pointsAgainst: 12.2,
+            pointDifferential: 252,
+            playoffWins: 3,
+            playoffLosses: 0,
+            totalRecord: "17-0",
+            turnoverMargin: 12
+        };
+
+        const worst = {
+            name: "New York Giants",
+            season: 2011,
+            category: "Worst",
+            record: "9-7",
+            wins: 9,
+            losses: 7,
+            winPct: 0.563,
+            pointsFor: 24.6,
+            pointsAgainst: 25.0,
+            pointDifferential: -6,
+            playoffWins: 4,
+            playoffLosses: 0,
+            totalRecord: "13-7",
+            turnoverMargin: -7
+        };
+
+        function loadTeam(team, tableId) {
+            const tbody = document.querySelector(`#${tableId} tbody`);
+
+            const rows = [
+                ["Team Name", team.name],
+                ["Season", team.season],
+                ["Category", team.category],
+                ["Regular Season Record", team.record],
+                ["Wins", team.wins],
+                ["Losses", team.losses],
+                ["Win Percentage", team.winPct],
+                ["Points For Per Game", team.pointsFor],
+                ["Points Against Per Game", team.pointsAgainst],
+                ["Point Differential", team.pointDifferential],
+                ["Playoff Wins", team.playoffWins],
+                ["Playoff Losses", team.playoffLosses],
+                ["Total Record", team.totalRecord],
+                ["Turnover Margin", team.turnoverMargin]
+            ];
+
+            for (const row of rows) {
+                const tr = document.createElement("tr");
+
+                const td1 = document.createElement("td");
+                td1.textContent = row[0];
+
+                const td2 = document.createElement("td");
+                td2.textContent = row[1];
+
+                tr.appendChild(td1);
+                tr.appendChild(td2);
+                tbody.appendChild(tr);
+            }
+        }
+
+        loadTeam(best, "best-table");
+        loadTeam(worst, "worst-table");
+    </script>
+</body>
+</html>
