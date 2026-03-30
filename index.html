@@ -8,11 +8,23 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            margin: 0;
+            padding: 30px;
+            background-color: #f4f6f8;
+            color: #1f2937;
         }
 
         h1 {
             text-align: center;
+            margin-bottom: 10px;
+            font-size: 36px;
+        }
+
+        .subtitle {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #4b5563;
+            font-size: 18px;
         }
 
         .tables {
@@ -23,92 +35,226 @@
             flex-wrap: wrap;
         }
 
-        table {
-            border-collapse: collapse;
-            width: 500px;
+        .table-card {
+            background-color: white;
+            border-radius: 14px;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+            padding: 20px;
+            width: 560px;
         }
 
-        th, td {
-            border: 1px solid black;
-            padding: 8px;
+        .team-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 12px;
+        }
+
+        .team-header img {
+            width: 70px;
+            height: 70px;
+            object-fit: contain;
+            background-color: white;
+            border-radius: 10px;
+            padding: 4px;
+        }
+
+        .team-title h2 {
+            margin: 0;
+            font-size: 26px;
+        }
+
+        .team-title p {
+            margin: 4px 0 0 0;
+            color: #6b7280;
+            font-size: 15px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td {
+            border: 1px solid #d1d5db;
+            padding: 10px 12px;
             text-align: left;
         }
 
-        caption {
-            font-size: 20px;
+        tr:nth-child(even) {
+            background-color: #f9fafb;
+        }
+
+        td:first-child {
             font-weight: bold;
-            margin-bottom: 10px;
+            width: 55%;
+        }
+
+        .best-label {
+            color: #0f766e;
+            font-weight: bold;
+        }
+
+        .worst-label {
+            color: #b91c1c;
+            font-weight: bold;
+        }
+
+        .note {
+            margin-top: 30px;
+            text-align: center;
+            color: #4b5563;
+            font-size: 15px;
+        }
+
+        @media (max-width: 1200px) {
+            .table-card {
+                width: 100%;
+                max-width: 700px;
+            }
         }
     </style>
 </head>
 <body>
     <h1>Best vs Worst Super Bowl Winner</h1>
+    <div class="subtitle">A statistical comparison of the 1972 Miami Dolphins and the 2011 New York Giants</div>
 
     <div class="tables">
-        <table id="best-table">
-            <caption>Best Team</caption>
-            <tbody></tbody>
-        </table>
+        <div class="table-card">
+            <div class="team-header">
+                <img id="best-logo" alt="Best Team Logo">
+                <div class="team-title">
+                    <h2 id="best-name"></h2>
+                    <p class="best-label">Best Super Bowl Winner</p>
+                </div>
+            </div>
+            <table id="best-table">
+                <tbody></tbody>
+            </table>
+        </div>
 
-        <table id="worst-table">
-            <caption>Worst Team</caption>
-            <tbody></tbody>
-        </table>
+        <div class="table-card">
+            <div class="team-header">
+                <img id="worst-logo" alt="Worst Team Logo">
+                <div class="team-title">
+                    <h2 id="worst-name"></h2>
+                    <p class="worst-label">Worst Super Bowl Winner</p>
+                </div>
+            </div>
+            <table id="worst-table">
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="note">
+        The 1972 Dolphins are the only team in NFL history to finish a season undefeated, while the 2011 Giants are the only Super Bowl winner with a negative regular season point differential.
     </div>
 
     <script>
         const best = {
             name: "1972 Miami Dolphins",
+            logo: "https://upload.wikimedia.org/wikipedia/en/3/37/Miami_Dolphins_logo.svg",
             season: 1972,
+            conference: "AFC",
+            division: "AFC East",
+            playoffSeed: 1,
             category: "Best",
+            regularSeasonGames: 14,
             record: "14-0",
             wins: 14,
             losses: 0,
             winPct: 1.000,
+            pointsForTotal: 385,
+            pointsAgainstTotal: 171,
             pointsFor: 27.5,
             pointsAgainst: 12.2,
-            pointDifferential: 252,
+            pointDifferential: 214,
+            pointDifferentialFullSeason: 252,
+            netPointsPerGame: 15.3,
             playoffWins: 3,
             playoffLosses: 0,
+            playoffRecord: "3-0",
             totalRecord: "17-0",
-            turnoverMargin: 12
+            totalWins: 17,
+            totalLosses: 0,
+            overallWinPct: 1.000,
+            turnoverMargin: 12,
+            superBowl: "Won Super Bowl VII",
+            superBowlScore: "14-7 vs Washington",
+            note: "Only perfect season in NFL history"
         };
 
         const worst = {
             name: "2011 New York Giants",
+            logo: "https://upload.wikimedia.org/wikipedia/commons/6/60/New_York_Giants_logo.svg",
             season: 2011,
+            conference: "NFC",
+            division: "NFC East",
+            playoffSeed: 4,
             category: "Worst",
+            regularSeasonGames: 16,
             record: "9-7",
             wins: 9,
             losses: 7,
             winPct: 0.563,
+            pointsForTotal: 394,
+            pointsAgainstTotal: 400,
             pointsFor: 24.6,
             pointsAgainst: 25.0,
             pointDifferential: -6,
+            pointDifferentialFullSeason: 15,
+            netPointsPerGame: -0.4,
             playoffWins: 4,
             playoffLosses: 0,
+            playoffRecord: "4-0",
             totalRecord: "13-7",
-            turnoverMargin: -7
+            totalWins: 13,
+            totalLosses: 7,
+            overallWinPct: 0.650,
+            turnoverMargin: -7,
+            superBowl: "Won Super Bowl XLVI",
+            superBowlScore: "21-17 vs New England",
+            note: "Only Super Bowl winner with a negative regular season point differential"
         };
 
-        function loadTeam(team, tableId) {
+        function loadTeam(team, tableId, nameId, logoId) {
+            document.getElementById(nameId).textContent = team.name;
+            document.getElementById(logoId).src = team.logo;
+
             const tbody = document.querySelector(`#${tableId} tbody`);
 
             const rows = [
-                ["Team Name", team.name],
                 ["Season", team.season],
+                ["Conference", team.conference],
+                ["Division", team.division],
+                ["Playoff Seed", team.playoffSeed],
                 ["Category", team.category],
+                ["Regular Season Games", team.regularSeasonGames],
                 ["Regular Season Record", team.record],
                 ["Wins", team.wins],
                 ["Losses", team.losses],
-                ["Win Percentage", team.winPct],
-                ["Points For Per Game", team.pointsFor],
-                ["Points Against Per Game", team.pointsAgainst],
-                ["Point Differential", team.pointDifferential],
+                ["Regular Season Win Percentage", team.winPct],
+                ["Total Points Scored", team.pointsForTotal],
+                ["Total Points Allowed", team.pointsAgainstTotal],
+                ["Points Scored Per Game", team.pointsFor],
+                ["Points Allowed Per Game", team.pointsAgainst],
+                ["Regular Season Point Differential", team.pointDifferential],
+                ["Full Season Point Differential", team.pointDifferentialFullSeason],
+                ["Net Points Per Game", team.netPointsPerGame],
+                ["Playoff Record", team.playoffRecord],
                 ["Playoff Wins", team.playoffWins],
                 ["Playoff Losses", team.playoffLosses],
                 ["Total Record", team.totalRecord],
-                ["Turnover Margin", team.turnoverMargin]
+                ["Total Wins", team.totalWins],
+                ["Total Losses", team.totalLosses],
+                ["Overall Win Percentage", team.overallWinPct],
+                ["Turnover Margin", team.turnoverMargin],
+                ["Super Bowl Result", team.superBowl],
+                ["Super Bowl Score", team.superBowlScore],
+                ["Key Note", team.note]
             ];
 
             for (const row of rows) {
@@ -126,8 +272,8 @@
             }
         }
 
-        loadTeam(best, "best-table");
-        loadTeam(worst, "worst-table");
+        loadTeam(best, "best-table", "best-name", "best-logo");
+        loadTeam(worst, "worst-table", "worst-name", "worst-logo");
     </script>
 </body>
 </html>
