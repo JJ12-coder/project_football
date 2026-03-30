@@ -11,36 +11,25 @@
             margin: 0;
             padding: 30px;
             background-color: #f4f6f8;
-            color: #1f2937;
         }
 
-        h1 {
+        h1, h2 {
             text-align: center;
-            margin-bottom: 10px;
-            font-size: 36px;
-        }
-
-        .subtitle {
-            text-align: center;
-            margin-bottom: 30px;
-            color: #4b5563;
-            font-size: 18px;
         }
 
         .tables {
             display: flex;
             gap: 30px;
             justify-content: center;
-            align-items: flex-start;
             flex-wrap: wrap;
         }
 
         .table-card {
-            background-color: white;
-            border-radius: 14px;
-            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
             padding: 20px;
-            width: 560px;
+            width: 550px;
         }
 
         .team-header {
@@ -48,39 +37,20 @@
             align-items: center;
             gap: 15px;
             margin-bottom: 15px;
-            border-bottom: 2px solid #e5e7eb;
-            padding-bottom: 12px;
         }
 
         .team-header img {
-            width: 70px;
-            height: 70px;
-            object-fit: contain;
-            background-color: white;
-            border-radius: 10px;
-            padding: 4px;
-        }
-
-        .team-title h2 {
-            margin: 0;
-            font-size: 26px;
-        }
-
-        .team-title p {
-            margin: 4px 0 0 0;
-            color: #6b7280;
-            font-size: 15px;
+            width: 60px;
         }
 
         table {
-            border-collapse: collapse;
             width: 100%;
+            border-collapse: collapse;
         }
 
         td {
-            border: 1px solid #d1d5db;
-            padding: 10px 12px;
-            text-align: left;
+            border: 1px solid #ddd;
+            padding: 8px;
         }
 
         tr:nth-child(even) {
@@ -89,191 +59,195 @@
 
         td:first-child {
             font-weight: bold;
-            width: 55%;
         }
 
-        .best-label {
-            color: #0f766e;
-            font-weight: bold;
-        }
-
-        .worst-label {
-            color: #b91c1c;
-            font-weight: bold;
-        }
-
-        .note {
-            margin-top: 30px;
-            text-align: center;
-            color: #4b5563;
-            font-size: 15px;
-        }
-
-        @media (max-width: 1200px) {
-            .table-card {
-                width: 100%;
-                max-width: 700px;
-            }
+        select {
+            margin-top: 10px;
+            padding: 5px;
+            width: 100%;
         }
     </style>
 </head>
+
 <body>
-    <h1>Best vs Worst Super Bowl Winner</h1>
-    <div class="subtitle">A statistical comparison of the 1972 Miami Dolphins and the 2011 New York Giants</div>
 
-    <div class="tables">
-        <div class="table-card">
-            <div class="team-header">
-                <img id="best-logo" alt="Best Team Logo">
-                <div class="team-title">
-                    <h2 id="best-name"></h2>
-                    <p class="best-label">Best Super Bowl Winner</p>
-                </div>
-            </div>
-            <table id="best-table">
-                <tbody></tbody>
-            </table>
-        </div>
+<h1>Best vs Worst Super Bowl Winner</h1>
 
-        <div class="table-card">
-            <div class="team-header">
-                <img id="worst-logo" alt="Worst Team Logo">
-                <div class="team-title">
-                    <h2 id="worst-name"></h2>
-                    <p class="worst-label">Worst Super Bowl Winner</p>
-                </div>
-            </div>
-            <table id="worst-table">
-                <tbody></tbody>
-            </table>
+<div class="tables">
+    <div class="table-card">
+        <div class="team-header">
+            <img src="https://upload.wikimedia.org/wikipedia/en/3/37/Miami_Dolphins_logo.svg">
+            <h2>1972 Miami Dolphins</h2>
         </div>
+        <table id="best-table"><tbody></tbody></table>
     </div>
 
-    <div class="note">
-        The 1972 Dolphins are the only team in NFL history to finish a season undefeated, while the 2011 Giants are the only Super Bowl winner with a negative regular season point differential.
+    <div class="table-card">
+        <div class="team-header">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/60/New_York_Giants_logo.svg">
+            <h2>2011 New York Giants</h2>
+        </div>
+        <table id="worst-table"><tbody></tbody></table>
+    </div>
+</div>
+
+<h2 style="margin-top:40px;">Key Player Stats</h2>
+
+<div class="tables">
+    <div class="table-card">
+        <h3>Dolphins Players</h3>
+
+        <select id="best-player" onchange="loadPlayer(bestPlayers, 'best-player', 'best-player-table')">
+            <option value="0">Larry Csonka</option>
+            <option value="1">Bob Griese</option>
+            <option value="2">Paul Warfield</option>
+        </select>
+
+        <table id="best-player-table"><tbody></tbody></table>
     </div>
 
-    <script>
-        const best = {
-            name: "1972 Miami Dolphins",
-            logo: "https://upload.wikimedia.org/wikipedia/en/3/37/Miami_Dolphins_logo.svg",
-            season: 1972,
-            conference: "AFC",
-            division: "AFC East",
-            playoffSeed: 1,
-            category: "Best",
-            regularSeasonGames: 14,
-            record: "14-0",
-            wins: 14,
-            losses: 0,
-            winPct: 1.000,
-            pointsForTotal: 385,
-            pointsAgainstTotal: 171,
-            pointsFor: 27.5,
-            pointsAgainst: 12.2,
-            pointDifferential: 214,
-            pointDifferentialFullSeason: 252,
-            netPointsPerGame: 15.3,
-            playoffWins: 3,
-            playoffLosses: 0,
-            playoffRecord: "3-0",
-            totalRecord: "17-0",
-            totalWins: 17,
-            totalLosses: 0,
-            overallWinPct: 1.000,
-            turnoverMargin: 12,
-            superBowl: "Won Super Bowl VII",
-            superBowlScore: "14-7 vs Washington",
-            note: "Only perfect season in NFL history"
-        };
+    <div class="table-card">
+        <h3>Giants Players</h3>
 
-        const worst = {
-            name: "2011 New York Giants",
-            logo: "https://upload.wikimedia.org/wikipedia/commons/6/60/New_York_Giants_logo.svg",
-            season: 2011,
-            conference: "NFC",
-            division: "NFC East",
-            playoffSeed: 4,
-            category: "Worst",
-            regularSeasonGames: 16,
-            record: "9-7",
-            wins: 9,
-            losses: 7,
-            winPct: 0.563,
-            pointsForTotal: 394,
-            pointsAgainstTotal: 400,
-            pointsFor: 24.6,
-            pointsAgainst: 25.0,
-            pointDifferential: -6,
-            pointDifferentialFullSeason: 15,
-            netPointsPerGame: -0.4,
-            playoffWins: 4,
-            playoffLosses: 0,
-            playoffRecord: "4-0",
-            totalRecord: "13-7",
-            totalWins: 13,
-            totalLosses: 7,
-            overallWinPct: 0.650,
-            turnoverMargin: -7,
-            superBowl: "Won Super Bowl XLVI",
-            superBowlScore: "21-17 vs New England",
-            note: "Only Super Bowl winner with a negative regular season point differential"
-        };
+        <select id="worst-player" onchange="loadPlayer(worstPlayers, 'worst-player', 'worst-player-table')">
+            <option value="0">Eli Manning</option>
+            <option value="1">Victor Cruz</option>
+            <option value="2">Jason Pierre-Paul</option>
+        </select>
 
-        function loadTeam(team, tableId, nameId, logoId) {
-            document.getElementById(nameId).textContent = team.name;
-            document.getElementById(logoId).src = team.logo;
+        <table id="worst-player-table"><tbody></tbody></table>
+    </div>
+</div>
 
-            const tbody = document.querySelector(`#${tableId} tbody`);
+<script>
+const best = {
+    record: "14-0",
+    winPct: 1.000,
+    pointsFor: 27.5,
+    pointsAgainst: 12.2,
+    pointDifferential: 252,
+    playoffRecord: "3-0",
+    totalRecord: "17-0",
+    turnoverMargin: 12
+};
 
-            const rows = [
-                ["Season", team.season],
-                ["Conference", team.conference],
-                ["Division", team.division],
-                ["Playoff Seed", team.playoffSeed],
-                ["Category", team.category],
-                ["Regular Season Games", team.regularSeasonGames],
-                ["Regular Season Record", team.record],
-                ["Wins", team.wins],
-                ["Losses", team.losses],
-                ["Regular Season Win Percentage", team.winPct],
-                ["Total Points Scored", team.pointsForTotal],
-                ["Total Points Allowed", team.pointsAgainstTotal],
-                ["Points Scored Per Game", team.pointsFor],
-                ["Points Allowed Per Game", team.pointsAgainst],
-                ["Regular Season Point Differential", team.pointDifferential],
-                ["Full Season Point Differential", team.pointDifferentialFullSeason],
-                ["Net Points Per Game", team.netPointsPerGame],
-                ["Playoff Record", team.playoffRecord],
-                ["Playoff Wins", team.playoffWins],
-                ["Playoff Losses", team.playoffLosses],
-                ["Total Record", team.totalRecord],
-                ["Total Wins", team.totalWins],
-                ["Total Losses", team.totalLosses],
-                ["Overall Win Percentage", team.overallWinPct],
-                ["Turnover Margin", team.turnoverMargin],
-                ["Super Bowl Result", team.superBowl],
-                ["Super Bowl Score", team.superBowlScore],
-                ["Key Note", team.note]
-            ];
+const worst = {
+    record: "9-7",
+    winPct: 0.563,
+    pointsFor: 24.6,
+    pointsAgainst: 25.0,
+    pointDifferential: -6,
+    playoffRecord: "4-0",
+    totalRecord: "13-7",
+    turnoverMargin: -7
+};
 
-            for (const row of rows) {
-                const tr = document.createElement("tr");
+function loadTeam(team, tableId) {
+    const tbody = document.querySelector(`#${tableId} tbody`);
 
-                const td1 = document.createElement("td");
-                td1.textContent = row[0];
+    const rows = [
+        ["Record", team.record],
+        ["Win %", team.winPct],
+        ["Points/Game", team.pointsFor],
+        ["Points Allowed", team.pointsAgainst],
+        ["Point Differential", team.pointDifferential],
+        ["Playoff Record", team.playoffRecord],
+        ["Total Record", team.totalRecord],
+        ["Turnover Margin", team.turnoverMargin]
+    ];
 
-                const td2 = document.createElement("td");
-                td2.textContent = row[1];
+    rows.forEach(row => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `<td>${row[0]}</td><td>${row[1]}</td>`;
+        tbody.appendChild(tr);
+    });
+}
 
-                tr.appendChild(td1);
-                tr.appendChild(td2);
-                tbody.appendChild(tr);
-            }
-        }
+const bestPlayers = [
+    {
+        name: "Larry Csonka",
+        position: "RB",
+        stats: [
+            ["Rushing Yards", 1117],
+            ["Rushing TD", 6],
+            ["Receiving Yards", 154]
+        ]
+    },
+    {
+        name: "Bob Griese",
+        position: "QB",
+        stats: [
+            ["Passing Yards", 1516],
+            ["Passing TD", 12],
+            ["INT", 7]
+        ]
+    },
+    {
+        name: "Paul Warfield",
+        position: "WR",
+        stats: [
+            ["Receiving Yards", 606],
+            ["TD", 3],
+            ["Receptions", 29]
+        ]
+    }
+];
 
-        loadTeam(best, "best-table", "best-name", "best-logo");
-        loadTeam(worst, "worst-table", "worst-name", "worst-logo");
-    </script>
+const worstPlayers = [
+    {
+        name: "Eli Manning",
+        position: "QB",
+        stats: [
+            ["Passing Yards", 4933],
+            ["Passing TD", 29],
+            ["INT", 16]
+        ]
+    },
+    {
+        name: "Victor Cruz",
+        position: "WR",
+        stats: [
+            ["Receiving Yards", 1536],
+            ["TD", 9],
+            ["Receptions", 82]
+        ]
+    },
+    {
+        name: "Jason Pierre-Paul",
+        position: "DE",
+        stats: [
+            ["Sacks", 16.5],
+            ["Tackles", 86],
+            ["Forced Fumbles", 2]
+        ]
+    }
+];
+
+function loadPlayer(players, selectId, tableId) {
+    const index = document.getElementById(selectId).value;
+    const player = players[index];
+    const tbody = document.querySelector(`#${tableId} tbody`);
+    tbody.innerHTML = "";
+
+    const rows = [
+        ["Name", player.name],
+        ["Position", player.position],
+        ...player.stats
+    ];
+
+    rows.forEach(row => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `<td>${row[0]}</td><td>${row[1]}</td>`;
+        tbody.appendChild(tr);
+    });
+}
+
+loadTeam(best, "best-table");
+loadTeam(worst, "worst-table");
+
+loadPlayer(bestPlayers, "best-player", "best-player-table");
+loadPlayer(worstPlayers, "worst-player", "worst-player-table");
+</script>
+
 </body>
 </html>
