@@ -1,9 +1,17 @@
-from fastapi.staticfiles import StaticFiles
 from fastapi import FastAPI
+from fastapi.responses import FileResponse
 from sqlmodel import Session, select
+from pathlib import Path
 from models import engine, Teams
 
 app = FastAPI()
+
+BASE_DIR = Path(__file__).resolve().parent
+
+
+@app.get("/")
+async def get_index():
+    return FileResponse(BASE_DIR / "index.html")
 
 
 @app.get("/teams")
@@ -91,6 +99,3 @@ async def get_worst_team():
         "totalRecord": team.totalRecord,
         "turnoverMargin": team.turnoverMargin,
     }
-
-
-app.mount("/", StaticFiles(directory="static", html=True), name="static")

@@ -1,29 +1,78 @@
-import pandas as pd
+from csv import DictReader
+from pathlib import Path
 import sqlite3
 
-DB_PATH = "superbowl.db"
 
-teams = pd.read_csv("teams.csv")
+BASE_DIR = Path(__file__).resolve().parent
+DB_PATH = BASE_DIR / "superbowl.db"
+CSV_PATH = BASE_DIR / "teams.csv"
 
-conn = sqlite3.connect(DB_PATH)
-cur = conn.cursor()
 
-def sqlite_type(dtype):
-    if pd.api.types.is_integer_dtype(dtype):
-        return "INTEGER"
-    elif pd.api.types.is_float_dtype(dtype):
-        return "REAL"
-    else:
-        return "TEXT"
+def convert_value(column: str, value: str):
+    if value == "":
+        return None
 
-cols = ", ".join(
-    f'"{c}" {sqlite_type(teams[c])}' for c in teams.columns
+    if column in {"teamID", "name", "category", "record", "totalRecord"}:
+        return value
+    if column in {"season", "wins", "losses", "pointDifferential", "playoffWins", "playoffLosses", "turnoverMargin"}:
+        return int(value)
+    if column in {"winPct", "pointsFor", "pointsAgainst"}:
+        return float(value)
+
+    return value
+
+
+schema = """
+CREATE TABLE teams (
+    teamID TEXT PRIMARY KEY,
+    name TEXT,
+    season INTEGER,
+    category TEXT,
+    record TEXT,
+    wins INTEGER,
+    losses INTEGER,
+    winPct REAL,
+    pointsFor REAL,
+    pointsAgainst REAL,
+    pointDifferential INTEGER,
+    playoffWins INTEGER,
+    playoffLosses INTEGER,
+    totalRecord TEXT,
+    turnoverMargin INTEGER
 )
+"""
 
-cur.execute(f'CREATE TABLE teams ({cols}, PRIMARY KEY ("teamID"))')
 
-teams.to_sql("teams", conn, if_exists="append", index=False)
+if DB_PATH.exists():
+    DB_PATH.unlink()
 
-conn.commit()
-conn.close()
+with sqlite3.connect(DB_PATH) as conn:
+    conn.execute(schema)
+
+    with CSV_PATH.open(newline="", encoding="utf-8") as csv_file:
+        reader = DictReader(csv_file)
+        rows = []
+        for row in reader:
+            rows.append(
+                {
+                    column: convert_value(column, value)
+                    for column, value in row.items()
+                }
+            )
+
+    conn.executemany(
+        """
+        INSERT INTO teams (
+            teamID, name, season, category, record, wins, losses, winPct,
+            pointsFor, pointsAgainst, pointDifferential, playoffWins,
+            playoffLosses, totalRecord, turnoverMargin
+        ) VALUES (
+            :teamID, :name, :season, :category, :record, :wins, :losses, :winPct,
+            :pointsFor, :pointsAgainst, :pointDifferential, :playoffWins,
+            :playoffLosses, :totalRecord, :turnoverMargin
+        )
+        """,
+        rows,
+    )
+
 print("superbowl.db created successfully.")
